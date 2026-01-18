@@ -1,0 +1,125 @@
+# .github/workflows/terraform.yml
+name: Terraform CI/CD
+
+on:
+  push:
+    branches: [main, dev, staging]
+  pull_request:
+    branches: [main]
+
+env:
+  TF_VERSION: "1.5.0"
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || github.ref == 'refs/heads/staging' && 'staging' || 'dev' }}
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    environment: ${{ env.ENVIRONMENT }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    - name: Setup Google Cloud
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Configure Terraform Variables
+      run: |
+        cat > infrastructure/terraform.tfvars << EOF
+        project_id = "${{ secrets.GCP_PROJECT_ID }}"
+        region = "${{ secrets.GCP_REGION }}"
+        environment = "${{ env.ENVIRONMENT }}"
+        billing_account = "${{ secrets.GCP_BILLING_ACCOUNT }}"
+        org_id = "${{ secrets.GCP_ORG_ID }}"
+        snowflake_account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+        snowflake_username = "${{ secrets.SNOWFLAKE_USERNAME }}"
+        snowflake_password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+        alert_notification_email = "${{ secrets.ALERT_EMAIL }}"
+        EOF
+
+    - name: Terraform Init
+      working-directory: ./infrastructure
+      run: |
+        terraform init \
+          -backend-config="bucket=tf-state-${{ secrets.GCP_PROJECT_ID }}" \
+          -backend-config="prefix=trade-pipeline/${{ env.ENVIRONMENT }}"
+
+    - name: Terraform Format
+      working-directory: ./infrastructure
+      run: terraform fmt -check -recursive
+
+    - name: Terraform Validate
+      working-directory: ./infrastructure
+      run: terraform validate
+
+    - name: Terraform Plan
+      working-directory: ./infrastructure
+      run: |
+        terraform workspace select ${{ env.ENVIRONMENT }} || terraform workspace new ${{ env.ENVIRONMENT }}
+        terraform plan -var="environment=${{ env.ENVIRONMENT }}" -out=tfplan
+
+    - name: Terraform Apply
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/dev')
+      working-directory: ./infrastructure
+      run: terraform apply -auto-approve tfplan
+
+    - name: Generate Outputs
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/dev')
+      working-directory: ./infrastructure
+      run: |
+        terraform output -json > outputs.json
+        echo "OUTPUTS=$(cat outputs.json | jq -c '.')" >> $GITHUB_ENV
+
+    - name: Update GitHub Environment Variables
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: haya14busa/action-update-semver@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        environment: production
+        outputs: ${{ env.OUTPUTS }}
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: terraform
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: TFSec Scan
+      uses: aquasecurity/tfsec-action@master
+      with:
+        working-directory: ./infrastructure
+
+    - name: Checkov Scan
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: ./infrastructure
+        framework: terraform
+
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    needs: [terraform, security-scan]
+    if: always()
+
+    steps:
+    - name: Send Slack Notification
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        text: "Terraform ${{ env.ENVIRONMENT }} deployment ${{ job.status }}"
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
