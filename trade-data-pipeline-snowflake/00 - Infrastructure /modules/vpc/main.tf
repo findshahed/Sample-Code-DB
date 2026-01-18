@@ -1,4 +1,7 @@
-# infrastructure/main.tf
+# Main.tf
+#
+#infrastructure/main.tf
+#
 terraform {
   required_version = ">= 1.0"
   backend "gcs" {
