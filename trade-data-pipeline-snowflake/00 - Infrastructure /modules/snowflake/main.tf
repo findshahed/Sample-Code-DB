@@ -1,4 +1,30 @@
 # infrastructure/modules/snowflake/main.tf
+# Following activities are performed in this script
+# Generate random passwords for users
+# Create database
+# Create schemas
+# Create Virtual warehouses
+# Create roles
+# Grant database privileges to roles
+# Grant schema privileges to roles
+# Grant warehouse privileges to roles
+# Create users
+# Grant roles to users
+# Create storage integration for GCS
+# Create network policy
+# Apply network policy to account
+# Create external tables (optional)
+# Create file format for JSON
+# Create stage for Snowpipe
+# Create Snowpipe
+# Create tasks for data transformation
+# Create streams for CDC
+# Create masking policy for sensitive data
+# Apply masking policy
+# Create resource monitor for cost control
+# Assign resource monitor to warehouses
+#
+
 terraform {
   required_version = ">= 1.0"
   required_providers {
