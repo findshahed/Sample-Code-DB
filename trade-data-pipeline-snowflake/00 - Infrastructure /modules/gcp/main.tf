@@ -1,4 +1,20 @@
 # infrastructure/modules/gcp/main.tf
+# Following activities are performed within this TF script
+# Setup Google services and Environment
+# Setup Service Accounts and grant iam roles to SA
+# Create Pub/Sub Topic
+# Create Pub/Sub Subscription for workflow
+# Create GCS Buckets
+# Create Dataflow job
+# Create Cloud Composer environment
+# Generate Fernet key for Airflow
+# Generate webserver secret
+# Create monitoring alert policies
+# Create notification channels
+# Create Cloud Build trigger for CI/CD
+# Create budget alert
+# VPC Module
+
 terraform {
   required_version = ">= 1.0"
   required_providers {
