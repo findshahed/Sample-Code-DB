@@ -1,5 +1,12 @@
 -- 00-infrastructure/snowflake/sql/02_create_tables.sql
--- Raw staging table with variant column for flexibility
+-- Following are SQL scripts to create tables within individual schemas
+-- Raw staging table (TRADES_STAGING ) with variant column for flexibility - ability to load different types of files - CSV, JSON etc
+-- PROCESSED.VALID_TRADES for validated trade records
+-- PROCESSED.EXPIRED_TRADES to store expired trade records
+-- AUDIT.REJECTED_TRADES for auditing rejected trade records
+-- AUDIT.TRADE_AUDIT_TRAIL to store audit trail of all trade records
+--
+
 CREATE OR REPLACE TABLE TRADE_DB.RAW.TRADES_STAGING (
     RECORD_ID NUMBER AUTOINCREMENT,
     RAW_DATA VARIANT,
