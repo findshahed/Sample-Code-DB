@@ -6,18 +6,28 @@ Real-time trade data processing pipeline using Google Cloud Platform and Snowfla
 
 ## Architecture Diagram
 
-┌─────────────────┐ ┌──────────────┐ ┌─────────────────┐ ┌──────────────┐
-│ Data │ │ Google │ │ Apache │ │ Snowflake │
-│ Generator │────│ Pub/Sub │────│ Dataflow │────│ Data │
-│ │ │ │ │ │ │ Warehouse │
-└─────────────────┘ └──────────────┘ └─────────────────┘ └──────────────┘
-│ │
-▼ ▼
-┌──────────────┐ ┌──────────────┐
-│ Google │ │ Airflow/ │
-│ Cloud │ │ Composer │
-│ Storage │ │ │
-└──────────────┘ └──────────────┘
+graph TB
+    subgraph "Data Generation"
+        A[Trade Generator Script] --> B[Pub/Sub Topic]
+    end
+    
+    subgraph "Stream Processing"
+        B --> C[Dataflow Pipeline]
+        C --> D{Validation Engine}
+        D -->|Valid| E[BigQuery Valid Trades]
+        D -->|Rejected| F[BigQuery Rejected Trades]
+        D -->|Expired| G[BigQuery Expired Trades]
+    end
+    
+    subgraph "Orchestration & Monitoring"
+        H[Cloud Composer/Airflow] --> I[Scheduled Jobs]
+        I --> J[Monitoring & Alerts]
+        J --> K[Looker Studio Dashboard]
+    end
+    
+    subgraph "Infrastructure"
+        L[Terraform] --> M[GCP Resources]
+    end
 ## Components
 
 ### 1. Data Generation
