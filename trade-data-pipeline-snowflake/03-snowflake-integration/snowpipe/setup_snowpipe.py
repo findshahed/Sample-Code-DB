@@ -1,4 +1,7 @@
 # 03-snowflake-integration/snowpipe/setup_snowpipe.py
+# This python script creates snowflake snowpipe to ingest realtime trades, aalso create external stage location on GCS bucket
+#
+
 import snowflake.connector
 import json
 from google.cloud import storage
