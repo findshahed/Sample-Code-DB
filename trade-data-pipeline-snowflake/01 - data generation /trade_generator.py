@@ -1,4 +1,6 @@
 # data_generation/trade_generator.py
+# This code generates random trades and publishes it into GCP Pub/SUB topic
+#
 import json
 import random
 import datetime
