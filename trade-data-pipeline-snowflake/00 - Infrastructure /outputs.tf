@@ -1,4 +1,8 @@
 # infrastructure/outputs.tf
+# This scripts handles outputs of multiple scripts run earlier
+# There are some manual steps mentioned which need to be performed post successful execution of TF scripts
+# these steps are mentioned as comments below
+# -------------------------------------------------------------------------------------------------------
 # GCP Outputs
 output "gcp_project_id" {
   description = "GCP Project ID"
