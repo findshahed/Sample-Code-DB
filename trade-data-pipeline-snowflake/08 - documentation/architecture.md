@@ -5,7 +5,7 @@
 Real-time trade data processing pipeline using Google Cloud Platform and Snowflake.
 
 ## Architecture Diagram
-![Architecture Diagram]()
+![Architecture Diagram](Sample-Code-DB.png)
 
 ## Components
 
