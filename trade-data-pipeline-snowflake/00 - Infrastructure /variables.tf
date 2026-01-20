@@ -1,4 +1,7 @@
 # infrastructure/variables.tf
+# Variable validation script against the values present in terraform.tfvars
+# The validation need to be successful in order to TF scripts to proceed further
+#
 variable "project_id" {
   description = "GCP Project ID"
   type        = string
