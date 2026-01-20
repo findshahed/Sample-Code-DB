@@ -1,5 +1,16 @@
 
 -- 03-snowflake-integration/tasks-streams/create_streams.sql
+-- Following operations are done within this SQL scripts
+-- Create stream on staging table
+-- Create stream on valid trades for change tracking
+-- Create task to process raw trades 
+-- Merge new trades into processed table
+-- Create task for data quality checks viz. Duplicate trades, future date trades, expired trade detection (move to expired trades table)
+-- Initiate tasks to RESUME state
+--
+
+
+
 -- Create stream on staging table
 CREATE OR REPLACE STREAM TRADE_DB.RAW.TRADES_STREAM 
 ON TABLE TRADE_DB.RAW.TRADES_STAGING
