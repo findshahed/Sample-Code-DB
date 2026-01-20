@@ -1,5 +1,16 @@
-
 # 05-monitoring-alerting/snowflake_monitoring.py
+# This script creates set of functions/procedures to monitor snowflake
+# SnowflakeMonitor - Check overall pipeline health
+# check_snowpipe_lag - Check Snowpipe ingestion lag
+# check_data_freshness - Check how fresh the data is
+# check_failed_tasks - Check for failed Snowflake tasks
+# check_credit_usage - Monitor Snowflake credit usage
+# send_alert - Send alert via email while preventing duplicate alert within 1 hour
+# generate_daily_report - Generate daily monitoring report
+# This also schedules monitoring every 15 minutes
+
+
+
 import snowflake.connector
 import pandas as pd
 import schedule
