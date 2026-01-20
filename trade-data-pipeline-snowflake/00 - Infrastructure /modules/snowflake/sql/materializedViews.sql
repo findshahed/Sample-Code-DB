@@ -1,4 +1,7 @@
+-- Following script is used to create materialzed views and update refresh schedule
 -- Create materialized views for frequent queries
+-- The task REFRESH_SUMMARY_MV is applied to materialized view DAILY_SUMMARY_MV
+--
 CREATE OR REPLACE MATERIALIZED VIEW TRADE_DB.ANALYTICS.DAILY_SUMMARY_MV
 CLUSTER BY (TRADE_DATE)
 AS
