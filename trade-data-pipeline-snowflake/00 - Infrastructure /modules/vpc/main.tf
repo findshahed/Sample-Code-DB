@@ -1,4 +1,8 @@
 # infrastructure/modules/vpc/main.tf
+# VPC scripts to create VPC network, subnet, Firewall rules, Internal firewall rules, Cloud router, Cloud NAT for private instances, Private access for composers
+#
+#
+
 terraform {
   required_version = ">= 1.0"
   required_providers {
