@@ -1,4 +1,9 @@
+-- Data masking policy and application
+-- Following actions are performed by this script
 -- Create masking policy for sensitive data
+-- Apply data masking policy on column VALID_TRADES.COUNTERPARTY_ID
+-- The script also creates a regional data access policy based on user roles
+--
 CREATE OR REPLACE MASKING POLICY trade_data_mask AS (val STRING) RETURNS STRING ->
     CASE
         WHEN CURRENT_ROLE() IN ('TRADE_ADMIN', 'ACCOUNTADMIN') THEN val
