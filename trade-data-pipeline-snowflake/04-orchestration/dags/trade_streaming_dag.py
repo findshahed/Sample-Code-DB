@@ -1,4 +1,10 @@
 # 04-orchestration/dags/trade_streaming_dag.py
+# Following script creates Airflow DAGs with snowflake operators
+# End-to-end trade processing pipeline with Snowflake
+# with this DAG, snowflake stream pipeline is started, snowflake transformers are executed, data quality checks performed, Daily report generated and successful notification is generated
+# In case of failures, failure notification is generated via email
+# Dependancies of DAGs are also defined in this script
+#
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
