@@ -28,6 +28,9 @@ graph TB
     subgraph "Infrastructure"
         L[Terraform] --> M[GCP Resources]
     end
+
+
+    
 ## Components
 
 ### 1. Data Generation
