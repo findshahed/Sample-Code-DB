@@ -1,4 +1,7 @@
 -- Create failover group
+-- Following script sets up failover mechanism for database restore in a point of time
+-- Currently setup 24-hours ago
+
 CREATE FAILOVER GROUP TRADE_FAILOVER_GROUP
   OBJECT_TYPES = ACCOUNT, DATABASES, SHARES
   ALLOWED_DATABASES = (TRADE_DB)
