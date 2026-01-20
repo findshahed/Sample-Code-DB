@@ -1,4 +1,7 @@
 -- Enable audit logging
+-- Following script sets up event logging and create audit view for events
+-- AUDIT.ACCOUNT_USAGE_VIEW  collects data from snowflakes ACCOUNT_USAGE.QUERY_HISTORY and populates AUDIT.ACCOUNT_USAGE_VIEWS
+
 ALTER ACCOUNT SET 
     EVENT_TIMESTAMP_IN_TRACE = TRUE,
     TRACE_LEVEL = 'ON_EVENT';
