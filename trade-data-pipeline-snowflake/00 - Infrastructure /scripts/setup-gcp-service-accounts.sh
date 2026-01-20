@@ -1,5 +1,6 @@
 #!/bin/bash
 # infrastructure/scripts/setup-gcp-service-accounts.sh
+# Script to setup GCP service accounts and apply iam binding policies to them
 #!/bin/bash
 set -e
 
