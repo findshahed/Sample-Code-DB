@@ -1,4 +1,20 @@
 # 00-infrastructure/terraform/main.tf
+# This TF scripts performs following tasks
+# Defiines providers
+# updates providers details from variable file for
+# 1. GCP
+# 2. Snowflake
+# Random password generator for SF users
+# Defines Snowflake Resources viz. Database name, Warehouse sizes, Schemas (RAW, PROCESSED, ANALYTIC, AUDIT)
+# Defines GCP Pub/sub topics for environment specific
+# Google dataflow subscription
+# GCS Buckets for DEV
+# Dataflow jobs
+# Cloud composer for Airflow (trade_orchestration)
+# Airflow software configuratoins
+# Monitoring and alerting
+# Outputs definitions for Snowflake, pub/sub, dataflow and airflow uri
+# 
 terraform {
   required_version = ">= 1.0"
   required_providers {
