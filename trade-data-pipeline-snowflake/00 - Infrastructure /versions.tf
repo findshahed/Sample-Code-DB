@@ -1,4 +1,6 @@
 # infrastructure/versions.tf
+# Versions of various components acceptatble to run TF scripts
+# 
 terraform {
   required_version = ">= 1.0.0"
   
