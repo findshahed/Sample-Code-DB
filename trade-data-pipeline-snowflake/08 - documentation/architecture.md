@@ -1,6 +1,6 @@
 # docs/architecture.md
 # Trade Data Pipeline Architecture
-graph TB
+
 graph TB
     subgraph "Data Generation"
         A[Trade Generator Script] --> B[Pub/Sub Topic]
