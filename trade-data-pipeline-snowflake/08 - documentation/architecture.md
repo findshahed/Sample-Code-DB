@@ -1,11 +1,5 @@
 # docs/architecture.md
 # Trade Data Pipeline Architecture
-
-## Overview
-Real-time trade data processing pipeline using Google Cloud Platform and Snowflake.
-
-## Architecture Diagram
-
 graph TB
     subgraph "Data Generation"
         A[Trade Generator Script] --> B[Pub/Sub Topic]
@@ -28,9 +22,11 @@ graph TB
     subgraph "Infrastructure"
         L[Terraform] --> M[GCP Resources]
     end
+## Overview
+Real-time trade data processing pipeline using Google Cloud Platform and Snowflake.
 
+## Architecture Diagram
 
-    
 ## Components
 
 ### 1. Data Generation
