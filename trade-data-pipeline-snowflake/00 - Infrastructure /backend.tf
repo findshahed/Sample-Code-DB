@@ -1,5 +1,7 @@
 # infrastructure/backend.tf
-# This file is typically configured per environment
+# Create this file for each environment - DEV, QA, TEST and PROD
+# Update variables for different environemnts
+#
 terraform {
   backend "gcs" {
     # These values are typically passed via CLI or workspace
