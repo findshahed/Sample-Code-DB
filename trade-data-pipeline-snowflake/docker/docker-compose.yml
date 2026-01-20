@@ -1,0 +1,78 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  data-generator:
+    build: ./data_generator
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-dev}
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - PUBSUB_TOPIC=${PUBSUB_TOPIC}
+    volumes:
+      - ./data_generator:/app
+      - ./config:/app/config
+    command: python main.py --rate 10 --count 1000
+
+  dataflow-pipeline:
+    build: ./dataflow_pipeline
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-dev}
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
+      - SNOWFLAKE_USER=${SNOWFLAKE_USER}
+      - SNOWFLAKE_PASSWORD=${SNOWFLAKE_PASSWORD}
+    volumes:
+      - ./dataflow_pipeline:/app
+      - ./config:/app/config
+    command: python pipeline.py --streaming
+
+  airflow-scheduler:
+    image: apache/airflow:2.7.1
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY}
+    volumes:
+      - ./airflow_dags:/opt/airflow/dags
+      - ./config:/opt/airflow/config
+    depends_on:
+      - postgres
+    command: scheduler
+
+  airflow-webserver:
+    image: apache/airflow:2.7.1
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow_dags:/opt/airflow/dags
+      - ./config:/opt/airflow/config
+    depends_on:
+      - postgres
+    command: webserver
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+  monitoring:
+    build: ./monitoring
+    ports:
+      - "9090:9090"
+    environment:
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
+    volumes:
+      - ./monitoring:/app
+    command: python monitor.py
+
+volumes:
+  postgres-db:
