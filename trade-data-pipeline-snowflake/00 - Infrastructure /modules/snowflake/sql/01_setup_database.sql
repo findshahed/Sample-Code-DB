@@ -1,5 +1,11 @@
 -- 00-infrastructure/snowflake/sql/01_setup_database.sql
 -- Create database, schemas, and warehouse
+-- SQL Scripts setup
+-- Database: TRADE_DB
+-- Schemas: RAW, PROCESSED, ANALYTICS, AUDIT
+-- Virtual Warehouses: TRADE_LOAD_WH (S-SMALL), TRADE_TRANSFORM_WH (SMALL), TRADE_ANALYTICS_WF (MEDIUM)
+-- Roles: TRADE_LOADER, TRADE_ANALYST, TRADE_ADMIN with different priveleges
+-- 
 CREATE OR REPLACE DATABASE TRADE_DB 
 DATA_RETENTION_TIME_IN_DAYS = 90 
 COMMENT = 'Trade processing database';
