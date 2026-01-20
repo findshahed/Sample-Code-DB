@@ -1,4 +1,6 @@
 # infrastructure/scripts/generate-snowflake-passwords.py
+# Python script to generate strong 16-character passwords
+# Script generates passwords for the users: trade_loader, trade_analyst and trade_admin and stores in Googles secrets manager
 #!/usr/bin/env python3
 """
 Generate secure passwords for Snowflake users and store them in Google Secret Manager
