@@ -1,6 +1,9 @@
-
 # infrastructure/terraform.tfvars.example
 # Copy this file to terraform.tfvars and fill in your values
+# This is a Sample Variables files which is picked up by Terraform to set initial vairables before execution
+# Typically the file is called 'terraform.tfvars' and has to be created once we have all information at hand
+#
+#
 
 # GCP Configuration
 project_id      = "your-gcp-project-id"
