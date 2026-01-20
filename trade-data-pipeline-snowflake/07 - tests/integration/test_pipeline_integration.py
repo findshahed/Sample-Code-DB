@@ -1,5 +1,14 @@
 
 # 07-tests/integration/test_pipeline_integration.py
+# Following script is used for pipeline integration
+# multiple python classes created to test pipelines
+# TestTradePipeline - Create test Snowflake connection
+# test_version_validation - Test version-based validation logic
+# test_maturity_date_validation - Test maturity date validation
+# test_pipeline_performance - Test pipeline performance with bulk data
+# test_error_handling - Test error handling and dead letter queue
+#
+
 import pytest
 import snowflake.connector
 from datetime import datetime
