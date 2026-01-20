@@ -1,4 +1,7 @@
 # infrastructure/providers.tf
+# Set of providers used to compliment TF scripts
+# Providers are a set of services that will be used in the project for provisioning
+#
 provider "google" {
   project = var.project_id
   region  = var.region
