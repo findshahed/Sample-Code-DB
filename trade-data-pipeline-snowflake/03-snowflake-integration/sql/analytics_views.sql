@@ -1,4 +1,13 @@
 -- 03-snowflake-integration/sql/analytics_views.sql
+-- In order to enable monitoring, multiple analytical views are created in different schems
+-- ANALYTICS.DAILY_TRADE_SUMMARY - Daily trade summary report
+-- TRADE_DB.ANALYTICS.COUNTERPARTY_RISK - Risk exposure view
+-- ANALYTICS.HOURLY_TRADE_METRICS (materialized)- for fast dashboard response queries
+-- ANALYTICS.COMPLIANCE_REPORT - Compliance reporting view
+-- ANALYTICS.REAL_TIME_DASHBOARD - Real time dashboard view
+--
+
+
 -- Daily trade summary view
 CREATE OR REPLACE VIEW TRADE_DB.ANALYTICS.DAILY_TRADE_SUMMARY AS
 SELECT
