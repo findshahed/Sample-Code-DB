@@ -1,4 +1,10 @@
 # airflow_dags/sensors/snowflake_sensor.py
+# Custom Snowflake sensors for Airflow
+# SnowflakeTableSensor - Sensor that waits for data in a Snowflake table
+# SnowflakeQuerySensor - Sensor that waits for a query to return a specific result
+# SnowflakePipeSensor - Sensor that waits for Snowpipe to finish processing
+#
+#
 """
 Custom Snowflake sensors for Airflow
 """
