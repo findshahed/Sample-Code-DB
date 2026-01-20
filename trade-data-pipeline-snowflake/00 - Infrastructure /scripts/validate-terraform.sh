@@ -1,5 +1,7 @@
 #!/bin/bash
 # infrastructure/scripts/validate-terraform.sh
+# This script is used to validate terrform execution without actually executing them
+# Normally run before actual execution to test points of failure within all scripts
 #!/bin/bash
 set -e
 
