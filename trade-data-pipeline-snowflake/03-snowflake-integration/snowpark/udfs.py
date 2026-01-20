@@ -1,5 +1,11 @@
-
 # 03-snowflake-integration/snowpark/udfs.py
+# This python script creates some user defined functions to utilized within the project
+# some of the udfs created after create session are
+# 1. trade validation
+# 2. calculate trade value
+# 3 Bulk trade validation stored procedure
+#
+
 from snowflake.snowpark import Session
 from snowflake.snowpark.functions import udf, col
 from snowflake.snowpark.types import StringType, IntegerType, TimestampType
