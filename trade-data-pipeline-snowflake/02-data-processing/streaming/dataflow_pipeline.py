@@ -1,4 +1,6 @@
 # 02-data-processing/streaming/dataflow_pipeline.py
+# This python code processes pub/sub topics into snowflake
+#
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions, StandardOptions
 from apache_beam.transforms.window import FixedWindows
