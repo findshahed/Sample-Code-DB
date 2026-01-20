@@ -1,4 +1,7 @@
 # infrastructure/main.tf
+# Master script to run individual modules - GCP, Snowflake, VPC and others
+# This is starting point for all Terraform jobs
+#
 terraform {
   required_version = ">= 1.0"
   backend "gcs" {
